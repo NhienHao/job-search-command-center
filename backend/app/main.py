@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import health
+from app.routers import applications, health
 
 app = FastAPI(
     title="Job Search Command Center API",
@@ -18,3 +18,4 @@ app.add_middleware(
 )
 
 app.include_router(health.router, prefix="/api")
+app.include_router(applications.router, prefix="/api")
