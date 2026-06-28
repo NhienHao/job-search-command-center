@@ -4,6 +4,7 @@ import { fetchApplications } from "../api/applications";
 import { ApplicationFilters } from "../components/ApplicationFilters";
 import { ApplicationForm } from "../components/ApplicationForm";
 import { ApplicationsTable } from "../components/ApplicationsTable";
+import { NotesPanel } from "../components/NotesPanel";
 import type { Application, ApplicationFilterParams } from "../types/application";
 
 const DEFAULT_FILTERS: ApplicationFilterParams = {
@@ -50,6 +51,10 @@ export function ApplicationsPage() {
     void loadApplications(appliedFilters);
   }
 
+  function handleSelectApplication(application: Application) {
+    setSelectedApplication(application);
+  }
+
   return (
     <section className="applications-page">
       <header className="page-header">
@@ -59,32 +64,38 @@ export function ApplicationsPage() {
         </p>
       </header>
 
-      <ApplicationForm
-        mode={selectedApplication ? "edit" : "create"}
-        initialValue={selectedApplication ?? undefined}
-        onSubmitSuccess={handleFormSuccess}
-        onCancel={() => setSelectedApplication(null)}
-      />
+      <div className="applications-layout">
+        <div className="applications-main">
+          <ApplicationForm
+            mode={selectedApplication ? "edit" : "create"}
+            initialValue={selectedApplication ?? undefined}
+            onSubmitSuccess={handleFormSuccess}
+            onCancel={() => setSelectedApplication(null)}
+          />
 
-      <ApplicationFilters
-        filters={draftFilters}
-        onChange={setDraftFilters}
-        onApply={() => setAppliedFilters({ ...draftFilters })}
-        onReset={() => {
-          setDraftFilters(DEFAULT_FILTERS);
-          setAppliedFilters(DEFAULT_FILTERS);
-        }}
-      />
+          <ApplicationFilters
+            filters={draftFilters}
+            onChange={setDraftFilters}
+            onApply={() => setAppliedFilters({ ...draftFilters })}
+            onReset={() => {
+              setDraftFilters(DEFAULT_FILTERS);
+              setAppliedFilters(DEFAULT_FILTERS);
+            }}
+          />
 
-      {loading && <p className="status-message">Loading applications…</p>}
-      {error && <p className="status-message error">{error}</p>}
-      {!loading && !error && (
-        <ApplicationsTable
-          items={items}
-          selectedId={selectedApplication?.id}
-          onEdit={setSelectedApplication}
-        />
-      )}
+          {loading && <p className="status-message">Loading applications…</p>}
+          {error && <p className="status-message error">{error}</p>}
+          {!loading && !error && (
+            <ApplicationsTable
+              items={items}
+              selectedId={selectedApplication?.id}
+              onEdit={handleSelectApplication}
+            />
+          )}
+        </div>
+
+        <NotesPanel application={selectedApplication} />
+      </div>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import { getApiBaseUrl } from "./client";
+import { parseApiError } from "./errors";
 import type {
   Application,
   ApplicationCreateInput,
@@ -19,23 +20,6 @@ function buildQuery(params: ApplicationFilterParams): string {
 
   const query = search.toString();
   return query ? `?${query}` : "";
-}
-
-async function parseApiError(response: Response): Promise<string> {
-  try {
-    const data = await response.json();
-    if (typeof data.detail === "string") {
-      return data.detail;
-    }
-    if (Array.isArray(data.detail)) {
-      return data.detail
-        .map((item: { msg?: string }) => item.msg ?? "Validation error")
-        .join("; ");
-    }
-  } catch {
-    // ignore JSON parse errors
-  }
-  return `Request failed (${response.status})`;
 }
 
 export async function fetchApplications(
