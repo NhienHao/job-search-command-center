@@ -7,8 +7,7 @@ from alembic import context
 from app.config import settings
 from app.database import Base
 
-# Step 4+: import models package so autogenerate registers ORM tables on Base.metadata.
-# import app.models  # noqa: F401
+import app.models  # noqa: F401
 
 config = context.config
 
