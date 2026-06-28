@@ -414,6 +414,84 @@ body {
   gap: 0.5rem !important;
 }
 
+.dashboard-page {
+  max-width: 720px;
+}
+
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dashboard-overview,
+.dashboard-by-status {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-overview h2,
+.dashboard-by-status h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard-card {
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.dashboard-card-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.dashboard-card-value {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dashboard-status-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.dashboard-status-table th,
+.dashboard-status-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dashboard-status-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dashboard-status-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-on_hold {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
 @media (max-width: 900px) {
   .applications-layout {
     grid-template-columns: 1fr;
