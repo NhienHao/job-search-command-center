@@ -146,11 +146,16 @@ Query params trên `GET /api/applications`:
 
 | Biến | Môi trường | Mục đích |
 |------|------------|----------|
+| `BACKEND_ENV` | Backend | Môi trường (`local`, production, …) |
+| `BACKEND_PORT` | Backend | Port tham chiếu cho local dev |
 | `DATABASE_URL` | Backend | Postgres connection string |
 | `CORS_ORIGINS` | Backend | URL frontend Vercel (comma-separated) |
 | `VITE_API_BASE_URL` | Frontend | Base URL API Railway |
 
-- `GET /health`: `{ "status": "ok" }` — Railway health check.
+Chi tiết local DB + Docker: [`docs/environment.md`](environment.md).
+
+- `GET /api/health`: `{ "status": "ok" }` — app health (Railway có thể dùng endpoint này).
+- `GET /api/health/db`: `{ "database": "ok" }` — kiểm tra kết nối Postgres.
 - CORS chỉ allow origin frontend production + `localhost` dev.
 
 ## Error handling
