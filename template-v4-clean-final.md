@@ -1,87 +1,62 @@
-Vibe Coding Project Template v4 — Cursor-first, iteration-ready
-Mục tiêu của template này:
+# Vibe Coding Project Template v4 — Cursor-first, iteration-ready
 
-Dùng Cursor để triển khai mini project theo workflow có kiểm soát.
+> Mục tiêu của template này:
+> - Dùng Cursor để triển khai mini project theo workflow có kiểm soát.
+> - AI làm phần lớn việc tạo/sửa code.
+> - Bạn giữ quyền chốt scope, behavior, trade-off, và review.
+> - Docs là source of truth cho mọi prompt tiếp theo.
+> - Mỗi bước phải có prompt rõ, phạm vi sửa rõ, pass condition rõ, và commit point rõ.
+> - Infra steps không được lấn sang business schema (lesson learned từ v3).
 
-AI làm phần lớn việc tạo/sửa code.
+---
 
-Bạn giữ quyền chốt scope, behavior, trade-off, và review.
+## 0. Nguyên tắc vận hành
 
-Docs là source of truth cho mọi prompt tiếp theo.
+### Vai trò
 
-Mỗi bước phải có prompt rõ, phạm vi sửa rõ, pass condition rõ, và commit point rõ.
+- **Bạn**
+  - quyết định vision, scope, và trade-off,
+  - review diff,
+  - chạy app / test,
+  - xác nhận pass condition,
+  - quyết định commit / deploy.
 
-Infra steps không được lấn sang business schema (đã rút kinh nghiệm từ v3).
+- **Cursor**
+  - đọc docs/codebase hiện tại,
+  - nêu plan ngắn nếu task không nhỏ,
+  - chỉ sửa trong scope,
+  - tóm tắt file đã sửa,
+  - nêu phần bạn cần test.
 
-0. Nguyên tắc vận hành
-Vai trò
-Bạn
+### Rules nên có trong `.cursor/rules/project-rules.md` hoặc `docs/ai-rules.md`
 
-quyết định vision, scope, và trade-off,
+- Không đổi scope nếu tôi chưa yêu cầu.
+- Chỉ sửa file liên quan trực tiếp tới task.
+- Không refactor lan sang module khác nếu không cần.
+- Nếu task ảnh hưởng hơn 3 file, hãy nêu plan ngắn trước khi sửa.
+- Nếu có nhiều lựa chọn kỹ thuật, ưu tiên cách đơn giản nhất cho MVP hoặc feature iteration hiện tại.
+- Không đổi schema/database nếu tôi chưa yêu cầu rõ.
+- Step 3.x không được định nghĩa ORM models business hoặc migration business.
+- Nếu docs hiện tại mâu thuẫn nhau, hãy dừng ở bước review docs; chưa code ngay.
+- Khi xong, luôn liệt kê:
+  - file đã tạo/sửa,
+  - thay đổi chính,
+  - việc tôi cần test.
 
-review diff,
+### Format chuẩn cho mọi prompt
 
-chạy app / test,
-
-xác nhận pass condition,
-
-quyết định commit / deploy.
-
-Cursor
-
-đọc docs/codebase hiện tại,
-
-nêu plan ngắn nếu task không nhỏ,
-
-chỉ sửa trong scope,
-
-tóm tắt file đã sửa,
-
-nêu phần bạn cần test.
-
-Rules nên có trong .cursor/rules/project-rules.md hoặc docs/ai-rules.md
-Không đổi scope nếu tôi chưa yêu cầu.
-
-Chỉ sửa file liên quan trực tiếp tới task.
-
-Không refactor lan sang module khác nếu không cần.
-
-Nếu task ảnh hưởng hơn 3 file, hãy nêu plan ngắn trước khi sửa.
-
-Nếu có nhiều lựa chọn kỹ thuật, ưu tiên cách đơn giản nhất cho MVP hoặc feature iteration hiện tại.
-
-Không đổi schema/database nếu tôi chưa yêu cầu rõ.
-
-Step 3.x không được định nghĩa ORM models business hoặc migration business.
-
-Nếu docs hiện tại mâu thuẫn nhau, hãy dừng ở bước review docs; chưa code ngay.
-
-Khi xong, luôn liệt kê:
-
-file đã tạo/sửa,
-
-thay đổi chính,
-
-việc tôi cần test.
-
-Format chuẩn cho mọi prompt
 Mỗi prompt nên có 6 phần:
 
-Bước hiện tại
-
-Context files phải đọc
-
-Codebase hiện có
-
-Task cần làm
-
-Constraints / boundaries
-
-Expected output
+1. Bước hiện tại  
+2. Context files phải đọc  
+3. Codebase hiện có  
+4. Task cần làm  
+5. Constraints / boundaries  
+6. Expected output  
 
 Template ngắn:
 
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -110,34 +85,36 @@ Yêu cầu:
    - cách tôi test.
 
 Nếu task này cần sửa nhiều file hoặc có nhiều hướng làm, hãy đưa plan ngắn trước rồi mới code.
-1. Scope docs
-Mục tiêu
+```
+
+---
+
+## 1. Scope docs
+
+### Mục tiêu
+
 Khóa scope dự án trước khi Cursor đụng vào code.
 
-Bạn làm
+### Bạn làm
+
 Viết ý thô:
 
-Sản phẩm là gì?
+- Sản phẩm là gì?
+- Ai dùng?
+- 3–5 hành động chính là gì?
+- MVP phải có gì?
+- Chưa làm gì ở phiên bản đầu?
+- Stack dự kiến là gì?
 
-Ai dùng?
+### Output docs
 
-3–5 hành động chính là gì?
+- `docs/mvp-scope.md`
+- `docs/user-stories.md`
+- `docs/feature-list.md`
 
-MVP phải có gì?
+### Prompt cho Cursor
 
-Chưa làm gì ở phiên bản đầu?
-
-Stack dự kiến là gì?
-
-Output docs
-docs/mvp-scope.md
-
-docs/user-stories.md
-
-docs/feature-list.md
-
-Prompt cho Cursor
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -165,34 +142,40 @@ Yêu cầu:
 - Viết ngắn, cụ thể, không mơ hồ.
 
 [PASTE Ý THÔ Ở ĐÂY]
-Bạn review gì
-Có đúng ý mình không?
+```
 
-Out-of-scope có rõ không?
+### Bạn review gì
 
-Có đang “ham” feature không?
+- Có đúng ý mình không?
+- Out-of-scope có rõ không?
+- Có đang “ham” feature không?
 
-Pass condition
-3 file phản ánh đúng scope.
+### Pass condition
 
-Bạn mô tả lại dự án trong 3 câu được.
+- 3 file phản ánh đúng scope.
+- Bạn mô tả lại dự án trong 3 câu được.
 
-Commit point
-Commit sau khi scope docs đã chốt.
+### Commit point
 
-2. Architecture / ERD / API overview
-Mục tiêu
+- Commit sau khi scope docs đã chốt.
+
+---
+
+## 2. Architecture / ERD / API overview
+
+### Mục tiêu
+
 Tạo technical context đủ dùng cho backend/frontend prompts.
 
-Output docs
-docs/architecture.md
+### Output docs
 
-docs/erd.md
+- `docs/architecture.md`
+- `docs/erd.md`
+- `docs/api-overview.md`
 
-docs/api-overview.md
+### Prompt cho Cursor
 
-Prompt cho Cursor
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -219,28 +202,36 @@ Sau khi làm xong, tóm tắt:
 - entity gốc là gì,
 - API quan trọng nhất là gì,
 - chỗ nào cần tôi review kỹ nhất.
-Bạn review gì
-ERD có đủ tối giản chưa?
+```
 
-API có khớp user stories không?
+### Bạn review gì
 
-Có phần nào “dự phòng quá xa” không?
+- ERD có đủ tối giản chưa?
+- API có khớp user stories không?
+- Có phần nào “dự phòng quá xa” không?
+- Có behavior nào liên quan delete / migration / computed field cần ghi rõ ngay không?
 
-Có behavior nào liên quan delete / migration / computed field cần ghi rõ ngay không?
+### Pass condition
 
-Pass condition
-Có thể nhìn docs để prompt bước sau mà không phải nghĩ lại từ đầu.
+- Có thể nhìn docs để prompt bước sau mà không phải nghĩ lại từ đầu.
 
-Commit point
-Commit sau khi architecture, ERD, API overview đã chốt.
+### Commit point
 
-3. Environment / infra baseline
-Mục tiêu
+- Commit sau khi architecture, ERD, API overview đã chốt.
+
+---
+
+## 3. Environment / infra baseline
+
+### Mục tiêu
+
 Dựng nền móng local chạy được, nhưng chưa đụng business schema/migration.
 
-3.1 Project structure
-Prompt cho Cursor
-text
+### 3.1 Project structure
+
+#### Prompt cho Cursor
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -265,9 +256,13 @@ Yêu cầu:
 - Không tạo ORM models business hoặc migration.
 - Nếu cần chạy lệnh init, hãy liệt kê rõ tôi cần chạy lệnh nào.
 - Sau khi xong, tóm tắt file đã tạo/sửa và cách chạy local.
-3.2 Local DB / env setup (v4 change — tránh kéo ERD quá sớm)
-Prompt cho Cursor
-text
+```
+
+### 3.2 Local DB / env setup (v4 change — tránh kéo ERD quá sớm)
+
+#### Prompt cho Cursor
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -276,9 +271,6 @@ Bước hiện tại:
 Cursor hãy đọc trước:
 - docs/mvp-scope.md
 - docs/architecture.md
-- backend/.env.example
-- backend/app/config.py
-- backend/app/database.py
 
 Tôi cần:
 - env mẫu cho backend,
@@ -291,14 +283,18 @@ Yêu cầu:
 - Không định nghĩa ORM models business (jobs, habits, v.v.).
 - Không tạo Alembic migration business ở bước này.
 - Tạo .env.example nếu phù hợp.
-- Nếu dùng Docker, có thể tạo docker-compose tối thiểu cho Postgres.
+- Nếu dùng Docker, có thể tạo docker-compose tối thiểu cho DB (ví dụ Postgres).
 - Sau khi xong, liệt kê chính xác tôi cần chạy lệnh nào để:
-  - tạo/chạy Postgres local,
+  - tạo/chạy DB local,
   - copy và chỉnh `.env`,
   - chạy backend local và verify health + DB health.
-3.3 Migration setup
-Prompt cho Cursor
-text
+```
+
+### 3.3 Migration setup
+
+#### Prompt cho Cursor
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -308,49 +304,53 @@ Cursor hãy đọc trước:
 - docs/erd.md
 - docs/architecture.md
 - codebase backend hiện tại
-- backend/app/database.py
 
 Tôi cần:
-- setup migration tool phù hợp (ví dụ Alembic),
+- setup migration tool phù hợp,
 - config DB,
 - quy trình chuẩn generate/apply migration,
 - không dùng create-all thủ công.
 
 Yêu cầu:
 - Giữ đơn giản cho MVP.
-- Chưa nhất thiết phải tạo full business migration, nhưng chuẩn bị sẵn flow cho Step 4.x.
 - Sau khi xong, ghi rõ:
   - lệnh tạo migration mới,
   - lệnh apply migration,
   - file config chính nằm ở đâu.
-Pass condition
-App chạy local.
+```
 
-DB kết nối được.
+### Pass condition
 
-Migration setup áp dụng được (ít nhất một migration thử, có thể là “empty” hoặc baseline).
+- App chạy local.
+- DB kết nối được.
+- Migration apply được.
+- Có `.env.example` hoặc config mẫu rõ ràng.
 
-Có .env.example hoặc config mẫu rõ ràng.
+### Fast-path note
 
-Fast-path note
 Nếu đây là project mới nhưng cùng stack với project trước, có thể dùng fast-path:
 
-copy baseline infra,
+- copy baseline infra,
+- verify local run,
+- không cần viết lại toàn bộ setup từ đầu.
 
-verify local run,
+### Commit point
 
-không cần viết lại toàn bộ setup từ đầu.
+- Commit sau khi app chạy local và migration dùng được.
 
-Commit point
-Commit sau khi app chạy local và migration dùng được.
+---
 
-4. First implementation loop
-Mục tiêu
+## 4. First implementation loop
+
+### Mục tiêu
+
 Ship bản MVP đầu tiên theo flow nhỏ, không prompt “làm hết app”.
 
-4.1 Model/schema đầu tiên
-Prompt cho Cursor
-text
+### 4.1 Model/schema đầu tiên
+
+#### Prompt cho Cursor
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -365,16 +365,20 @@ Tôi cần tạo model đầu tiên cho entity: [Tên entity]
 
 Yêu cầu:
 1. Tạo model/schema đúng theo ERD.
-2. Tạo migration tương ứng bằng tool đã setup.
+2. Tạo migration tương ứng.
 3. Chỉ sửa các file cần thiết.
 4. Không tạo thêm entity khác ở bước này.
 5. Sau khi xong, tóm tắt:
    - file đã tạo/sửa,
    - field nào quan trọng,
-   - lệnh tôi cần chạy để verify (migration + app).
-4.2 Các model còn lại
-Prompt cho Cursor
-text
+   - lệnh tôi cần chạy để verify.
+```
+
+### 4.2 Các model còn lại
+
+#### Prompt cho Cursor
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -394,9 +398,13 @@ Yêu cầu:
 - Tạo migration đầy đủ.
 - Không tự thêm field ngoài ERD.
 - Sau khi xong, tóm tắt quan hệ giữa các entity.
-4.3 Core backend / business logic
-Template prompt chuẩn cho mọi module backend
-text
+```
+
+### 4.3 Core backend / business logic
+
+#### Template prompt chuẩn cho mọi module backend
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -412,7 +420,7 @@ Codebase hiện có:
 - [liệt kê model/schema/router/service đã có]
 
 Tôi cần làm module:
-- [ví dụ: Task CRUD / Job applications / Auth]
+- [ví dụ: Task CRUD / Auth / Upload]
 
 Yêu cầu:
 1. Tạo request/response schema phù hợp.
@@ -427,9 +435,13 @@ Yêu cầu:
    - cách tôi test local.
 
 Nếu có nhiều hướng làm, hãy nêu plan ngắn trước.
-4.4 Frontend integration
-4.4.1 Frontend shell
-text
+```
+
+### 4.4 Frontend integration
+
+#### 4.4.1 Frontend shell
+
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -438,7 +450,6 @@ Bước hiện tại:
 Cursor hãy đọc trước:
 - docs/api-overview.md
 - docs/mvp-scope.md
-- docs/architecture.md
 - codebase frontend hiện tại (nếu đã có)
 
 Backend hiện có:
@@ -458,8 +469,11 @@ Yêu cầu:
   - file đã tạo/sửa,
   - lệnh chạy frontend,
   - cách tôi verify integration.
-4.4.2 Template prompt cho từng screen
-text
+```
+
+#### 4.4.2 Template prompt cho từng screen
+
+```text
 Tiếp tục project frontend hiện tại.
 
 Bước hiện tại:
@@ -488,44 +502,45 @@ Yêu cầu:
    - file đã tạo/sửa,
    - flow user hoàn thành thế nào,
    - tôi cần test gì trên UI.
-Pass condition
-Local flow chính chạy được.
+```
 
-Case lỗi cơ bản pass.
+### Pass condition
 
-Không có drift lớn giữa docs và code.
+- Local flow chính chạy được.
+- Case lỗi cơ bản pass.
+- Không có drift lớn giữa docs và code.
 
-Commit point
-Commit sau mỗi pass condition nhỏ:
+### Commit point
 
-model/migration,
+- Commit sau mỗi pass condition nhỏ:
+  - model/migration,
+  - backend module,
+  - frontend screen.
 
-backend module,
+---
 
-frontend screen.
+## 5. Baseline deploy
 
-5. Baseline deploy
-Mục tiêu
+### Mục tiêu
+
 Ship bản đầu tiên lên production theo cách đơn giản nhất.
 
-Output docs
-docs/deploy-checklist.md
+### Output docs
 
-Nên có trong checklist
-Thứ tự deploy.
+- `docs/deploy-checklist.md`
 
-Env vars.
+### Nên có trong checklist
 
-Build/start commands.
+- Thứ tự deploy.
+- Env vars.
+- Build/start commands.
+- CORS / production URL rules.
+- Verify sau deploy.
+- Lỗi thường gặp.
 
-CORS / production URL rules.
+### Prompt cho Cursor
 
-Verify sau deploy.
-
-Lỗi thường gặp.
-
-Prompt cho Cursor
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -558,25 +573,33 @@ Yêu cầu:
   - tôi cần làm gì theo thứ tự,
   - command nào phải chạy trước,
   - cách verify sau deploy.
-Pass condition
-Có URL production chạy được hoặc ít nhất checklist deploy rất rõ.
+```
 
-Verify flow chính pass trên production.
+### Pass condition
 
-Commit point
-Commit trước deploy.
+- Có URL production chạy được hoặc ít nhất checklist deploy rất rõ.
+- Verify flow chính pass trên production.
 
-Commit lại sau khi deploy pass nếu có thay đổi config/docs cuối.
+### Commit point
 
-6. Self-review
-Mục tiêu
+- Commit trước deploy.
+- Commit lại sau khi deploy pass nếu có thay đổi config/docs cuối.
+
+---
+
+## 6. Self-review
+
+### Mục tiêu
+
 Đảm bảo bạn vẫn hiểu app sau khi AI code phần lớn.
 
-Output docs
-docs/self-review-checklist.md
+### Output docs
 
-Prompt cho Cursor
-text
+- `docs/self-review-checklist.md`
+
+### Prompt cho Cursor
+
+```text
 Dựa trên codebase hiện tại và các docs trong thư mục docs/,
 hãy tạo file docs/self-review-checklist.md gồm các câu hỏi ngắn để tôi tự trả lời.
 
@@ -592,45 +615,45 @@ Yêu cầu:
 - câu hỏi ngắn, rõ,
 - không trả lời hộ,
 - chia theo section.
-Pass condition
-Bạn trả lời được phần lớn mà không nhìn note quá nhiều.
+```
 
-Bạn biết layer nào sửa trước khi thêm feature.
+### Pass condition
 
-7. Post-MVP feature iteration
-Giữ nguyên tinh thần v3, dùng docs-first trước khi code.
+- Bạn trả lời được phần lớn mà không nhìn note quá nhiều.
+- Bạn biết layer nào sửa trước khi thêm feature.
 
-Khi nào dùng
+---
+
+## 7. Post-MVP feature iteration
+
+> Phần mới quan trọng nhất của v3, giữ lại cho v4.
+
+### Khi nào dùng
+
 Khi MVP đã ship và bạn muốn thêm một feature nhỏ tiếp theo:
 
-edit/delete,
+- edit/delete,
+- field mới,
+- endpoint mới,
+- màn hình mới,
+- behavior mới.
 
-field mới,
+### 7.1 Feature scope update
 
-endpoint mới,
-
-màn hình mới,
-
-behavior mới.
-
-7.1 Feature scope update
 Trước khi code, update docs cho feature mới.
 
-Có thể cần sửa
-docs/mvp-scope.md
+#### Có thể cần sửa
 
-docs/feature-list.md
+- `docs/mvp-scope.md`
+- `docs/feature-list.md`
+- `docs/user-stories.md`
+- `docs/api-overview.md`
+- `docs/architecture.md`
+- `docs/erd.md` nếu đụng data shape/rules
 
-docs/user-stories.md
+#### Prompt mẫu
 
-docs/api-overview.md
-
-docs/architecture.md
-
-docs/erd.md nếu đụng data shape/rules
-
-Prompt mẫu
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -660,53 +683,48 @@ Yêu cầu:
   - file docs đã sửa,
   - behavior mới là gì,
   - chỗ nào tôi cần review kỹ nhất.
-7.2 Docs consistency gate
-Không code nếu docs còn lệch nhau.
+```
 
-Checklist bắt buộc
-API behavior có khớp ERD không?
+### 7.2 Docs consistency gate
 
-Delete behavior có khớp FK hiện tại không?
+> Không code nếu docs còn lệch nhau.
 
-Computed field có bị lỡ chuyển thành persisted field không?
+#### Checklist bắt buộc
 
-Có cần migration không?
+- API behavior có khớp ERD không?
+- Delete behavior có khớp FK hiện tại không?
+- Computed field có bị lỡ chuyển thành persisted field không?
+- Có cần migration không?
+- `architecture.md` có còn wording cũ không?
 
-architecture.md có còn wording cũ không?
+### Pass condition
 
-Pass condition
-Docs sync.
+- Docs sync.
+- Đã chốt rõ:
+  - có migration hay không,
+  - delete/update behavior là gì,
+  - backend sẽ xử lý ở layer nào.
 
-Đã chốt rõ:
+### Commit point
 
-có migration hay không,
+- Commit sau khi docs cho feature mới đã sync.
 
-delete/update behavior là gì,
+---
 
-backend sẽ xử lý ở layer nào.
+## 8. Decision gate cho behavior nhạy cảm
 
-Commit point
-Commit sau khi docs cho feature mới đã sync.
+> Dùng khi đụng:
+> - delete,
+> - cascade/restrict,
+> - migration,
+> - data retention,
+> - auth/permission,
+> - payment,
+> - production security.
 
-8. Decision gate cho behavior nhạy cảm
-Dùng khi đụng:
+### Prompt mẫu
 
-delete,
-
-cascade/restrict,
-
-migration,
-
-data retention,
-
-auth/permission,
-
-payment,
-
-production security.
-
-Prompt mẫu
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -731,60 +749,66 @@ Hãy:
 Yêu cầu:
 - Nếu đụng schema/database, nói rõ có cần migration không.
 - Nếu không đổi DB, nói rõ service/backend phải xử lý thế nào.
-Pass condition
-Bạn đã chốt behavior trước khi Cursor bắt đầu code.
+```
 
-Không còn quyết định mơ hồ bị đẩy sang lúc implement.
+### Pass condition
 
-Commit point
-Không bắt buộc commit nếu chỉ là decision note, nhưng nên commit nếu docs đã thay đổi theo decision đó.
+- Bạn đã chốt behavior trước khi Cursor bắt đầu code.
+- Không còn quyết định mơ hồ bị đẩy sang lúc implement.
 
-9. Feature implementation loop
-9.1 Backend module
+### Commit point
+
+- Không bắt buộc commit nếu chỉ là decision note, nhưng nên commit nếu docs đã thay đổi theo decision đó.
+
+---
+
+## 9. Feature implementation loop
+
+### 9.1 Backend module
+
 Dùng lại tinh thần step backend của bản MVP, nhưng luôn bắt đầu từ docs đã sync.
 
-9.2 Frontend module
+### 9.2 Frontend module
+
 Dùng lại tinh thần step frontend của bản MVP, nhưng luôn kèm regression cases và flow cũ không được vỡ.
 
-9.3 Commit point
+### 9.3 Commit point
+
 Commit sau khi:
 
-backend pass local, hoặc
+- backend pass local, hoặc
+- frontend pass local.
 
-frontend pass local.
+### Pass condition
 
-Pass condition
-Feature mới chạy local.
+- Feature mới chạy local.
+- Case lỗi cơ bản pass.
+- Flow cũ không regress.
 
-Case lỗi cơ bản pass.
+---
 
-Flow cũ không regress.
+## 10. Regression checklist
 
-10. Regression checklist
-Sau mỗi feature nhỏ, test cả mới lẫn cũ.
+> Sau mỗi feature nhỏ, test cả mới lẫn cũ.
 
-10.1 New feature cases
-case thành công,
+### 10.1 New feature cases
 
-validation lỗi,
+- case thành công,
+- validation lỗi,
+- id sai / not found,
+- cancel/undo nếu có.
 
-id sai / not found,
+### 10.2 Regression cases
 
-cancel/undo nếu có.
+- create cũ còn chạy,
+- list cũ còn chạy,
+- old toggle/check-in flow còn chạy,
+- refresh persistence còn đúng,
+- UI error state còn đúng.
 
-10.2 Regression cases
-create cũ còn chạy,
+### Prompt cleanup / polish
 
-list cũ còn chạy,
-
-old toggle/check-in flow còn chạy,
-
-refresh persistence còn đúng,
-
-UI error state còn đúng.
-
-Prompt cleanup / polish
-text
+```text
 Tiếp tục project hiện tại.
 
 Bước hiện tại:
@@ -809,144 +833,119 @@ Yêu cầu:
   - file đã sửa,
   - cleanup chính,
   - chỗ tôi nên test lại.
-Pass condition
-Local test pass.
+```
 
-Regression pass.
+### Pass condition
 
-Cleanup không đổi behavior.
+- Local test pass.
+- Regression pass.
+- Cleanup không đổi behavior.
 
-Commit point
-Commit sau cleanup nếu regression vẫn pass.
+### Commit point
 
-11. Redeploy checklist cho feature iteration
-Khác với baseline deploy, đây là checklist ngắn sau mỗi feature mới.
+- Commit sau cleanup nếu regression vẫn pass.
 
-Thứ tự
-Commit.
+---
 
-Push.
+## 11. Redeploy checklist cho feature iteration
 
-Redeploy backend nếu backend đổi.
+> Khác với baseline deploy, đây là checklist ngắn sau mỗi feature mới.
 
-Verify health/API.
+### Thứ tự
 
-Redeploy frontend nếu frontend đổi.
+1. Commit.
+2. Push.
+3. Redeploy backend nếu backend đổi.
+4. Verify health/API.
+5. Redeploy frontend nếu frontend đổi.
+6. Verify feature mới trên production.
+7. Verify regression cases trên production.
 
-Verify feature mới trên production.
+### Verify tối thiểu
 
-Verify regression cases trên production.
+- feature mới pass,
+- flow cũ pass,
+- refresh persistence đúng,
+- không lỗi CORS/network.
 
-Verify tối thiểu
-feature mới pass,
+### Pass condition
 
-flow cũ pass,
+- Feature mới ship production.
+- Không phá production flow cũ.
 
-refresh persistence đúng,
+---
 
-không lỗi CORS/network.
+## 12. Prompt library
 
-Pass condition
-Feature mới ship production.
+Tạo `docs/prompts/` và giữ lại prompt tốt đã dùng thật.
 
-Không phá production flow cũ.
+### Tối thiểu nên có
 
-12. Prompt library
-Tạo docs/prompts/ và giữ lại prompt tốt đã dùng thật.
+- `requirements.md`
+- `architecture.md`
+- `backend-module.md`
+- `frontend-screen.md`
+- `feature-docs-update.md`
+- `behavior-decision.md`
+- `cleanup.md`
+- `deploy-baseline.md`
+- `redeploy-feature.md`
+- `self-review.md`
 
-Tối thiểu nên có
-requirements.md
+---
 
-architecture.md
+## 13. Session workflow chuẩn
 
-backend-module.md
-
-frontend-screen.md
-
-feature-docs-update.md
-
-behavior-decision.md
-
-cleanup.md
-
-deploy-baseline.md
-
-redeploy-feature.md
-
-self-review.md
-
-13. Session workflow chuẩn
 Mỗi session:
 
-Xác định đang ở bước nào.
+1. Xác định đang ở bước nào.
+2. Chọn đúng docs/context files.
+3. Gửi prompt ngắn, rõ, có boundary.
+4. Xem Cursor plan.
+5. Review diff.
+6. Chạy/test.
+7. Xác nhận pass condition.
+8. Commit.
+9. Nếu cần, cập nhật docs.
+10. Nếu feature đã ship, update prompt library.
 
-Chọn đúng docs/context files.
+---
 
-Gửi prompt ngắn, rõ, có boundary.
+## 14. Khi nào phải review kỹ hơn bình thường
 
-Xem Cursor plan.
-
-Review diff.
-
-Chạy/test.
-
-Xác nhận pass condition.
-
-Commit.
-
-Nếu cần, cập nhật docs.
-
-Nếu feature đã ship, update prompt library.
-
-14. Khi nào phải review kỹ hơn bình thường
 Các vùng nguy hiểm:
 
-auth,
+- auth,
+- permission,
+- payment,
+- migration/data deletion,
+- security config,
+- production deploy config,
+- logic liên quan tiền/quyền/dữ liệu nhạy cảm.
 
-permission,
+### Rule
 
-payment,
+- prompt nhỏ hơn,
+- bắt buộc plan trước,
+- có decision gate,
+- review diff kỹ hơn,
+- test kỹ hơn,
+- commit nhỏ hơn.
 
-migration/data deletion,
+---
 
-security config,
+## 15. Commit workflow
 
-production deploy config,
-
-logic liên quan tiền/quyền/dữ liệu nhạy cảm.
-
-Rule
-prompt nhỏ hơn,
-
-bắt buộc plan trước,
-
-có decision gate,
-
-review diff kỹ hơn,
-
-test kỹ hơn,
-
-commit nhỏ hơn.
-
-15. Commit workflow
-Mỗi feature/loop lớn một branch nếu cần.
-
-Commit sau mỗi pass condition.
-
-Review diff trước khi accept.
-
-Nếu Cursor đi sai hướng, quay về commit gần nhất rồi prompt lại.
+- Mỗi feature/loop lớn một branch nếu cần.
+- Commit sau mỗi pass condition.
+- Review diff trước khi accept.
+- Nếu Cursor đi sai hướng, quay về commit gần nhất rồi prompt lại.
 
 Ví dụ commit:
 
-feat: add habits create/list backend
-
-feat: add today check-in frontend
-
-chore: add deploy checklist
-
-feat: add habit edit/delete backend
-
-feat: add habit edit/delete frontend
-
-chore: cleanup validation and pending flow
+- `feat: add habits create/list backend`
+- `feat: add today check-in frontend`
+- `chore: add deploy checklist`
+- `feat: add habit edit/delete backend`
+- `feat: add habit edit/delete frontend`
+- `chore: cleanup validation and pending flow`
