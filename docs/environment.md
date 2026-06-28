@@ -150,5 +150,50 @@ Invoke-RestMethod http://localhost:8000/api/health/db
 ## Ghi chú
 
 - Step 3.2 chỉ wire engine/session; **chưa có business tables**.
-- Alembic migrations → Step 3.3.
+- Alembic migrations → Step 3.3 (xem section bên dưới).
 - Không commit file `.env` (đã có trong `.gitignore`).
+
+---
+
+## Alembic migrations (Step 3.3+)
+
+Migration tool nằm tại `backend/alembic/`. Config entry: `backend/alembic.ini`.
+
+| Item | Source |
+|------|--------|
+| DB URL | `DATABASE_URL` env → `app.config.settings.database.database_url` |
+| `target_metadata` | `Base.metadata` from `app/database.py` |
+| Revision files | `backend/alembic/versions/` |
+
+Chạy mọi lệnh từ thư mục `backend/` (venv active). Chi tiết: `backend/alembic/README`.
+
+### Lệnh chuẩn (PowerShell)
+
+```powershell
+cd backend
+
+# Kiểm tra revision hiện tại
+.venv\Scripts\alembic current
+
+# Xem lịch sử migrations
+.venv\Scripts\alembic history
+
+# Tạo migration mới (Step 4+ — sau khi có ORM models)
+.venv\Scripts\alembic revision --autogenerate -m "your message"
+
+# Apply migrations
+.venv\Scripts\alembic upgrade head
+```
+
+Step 3.3 chỉ setup Alembic + baseline rỗng (verify pipeline). **Chưa** tạo bảng theo ERD — để Step 4.x.
+
+### Quy trình local
+
+1. Docker Postgres đang chạy: `docker start job-search-command-center-postgres`
+2. `backend/.env` có `DATABASE_URL` đúng port
+3. Từ `backend/`:
+   ```powershell
+   .venv\Scripts\alembic current
+   .venv\Scripts\alembic upgrade head
+   ```
+4. Step 4.x: định nghĩa models → `alembic revision --autogenerate -m "..."` → `alembic upgrade head`

@@ -94,6 +94,17 @@ State: fetch từ API, không localStorage làm source of truth.
 | Service | Filter, sort, dashboard counts |
 | Model | SQLAlchemy ORM, enum, relationships |
 
+## Migrations (Alembic)
+
+| Item | Location / source |
+|------|-------------------|
+| Config | `backend/alembic.ini`, `backend/alembic/env.py` |
+| Revisions | `backend/alembic/versions/` |
+| DB URL | `DATABASE_URL` → `settings.database.database_url` (shared with app) |
+| Metadata | `Base.metadata` from `app/database.py` |
+
+Commands and local workflow: [`docs/environment.md`](environment.md#alembic-migrations-step-33).
+
 ## Enum & quy ước
 
 ### `application_status`

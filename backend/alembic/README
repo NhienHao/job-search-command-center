@@ -1,0 +1,35 @@
+# Alembic migrations
+
+Run all commands from `backend/` with the virtualenv active.
+
+## Database URL
+
+`alembic/env.py` reads `DATABASE_URL` via `app.config.settings.database.database_url` — same source as `app/database.py`. No hardcoded connection string in `alembic.ini`.
+
+## target_metadata
+
+`Base.metadata` from `app/database.py`. When models exist (Step 4+), import them in `alembic/env.py` and/or `app/models/__init__.py` so autogenerate detects tables.
+
+## Commands (Windows / PowerShell)
+
+```powershell
+cd backend
+.venv\Scripts\activate
+
+# Check current revision
+.venv\Scripts\alembic current
+
+# List migration history
+.venv\Scripts\alembic history
+
+# Create a new migration (after models exist — Step 4+)
+.venv\Scripts\alembic revision --autogenerate -m "describe change"
+
+# Apply all pending migrations
+.venv\Scripts\alembic upgrade head
+
+# Roll back one revision
+.venv\Scripts\alembic downgrade -1
+```
+
+Step 3.3 ships an empty **baseline** revision to verify the pipeline. Business tables come in Step 4.x.
