@@ -4,7 +4,7 @@ from datetime import datetime
 
 from sqlalchemy import DateTime, Enum, String, Text, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -65,4 +65,10 @@ class JobApplication(Base):
         nullable=False,
         server_default=func.now(),
         onupdate=func.now(),
+    )
+
+    notes: Mapped[list["ApplicationNote"]] = relationship(
+        "ApplicationNote",
+        back_populates="application",
+        cascade="all, delete-orphan",
     )
