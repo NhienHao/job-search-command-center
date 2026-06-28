@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { fetchApplications } from "../api/applications";
 import { ApplicationFilters } from "../components/ApplicationFilters";
+import { ApplicationForm } from "../components/ApplicationForm";
 import { ApplicationsTable } from "../components/ApplicationsTable";
 import type { Application, ApplicationFilterParams } from "../types/application";
 
@@ -19,6 +20,9 @@ export function ApplicationsPage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedApplication, setSelectedApplication] = useState<Application | null>(
+    null,
+  );
 
   const loadApplications = useCallback(async (filters: ApplicationFilterParams) => {
     setLoading(true);
@@ -41,6 +45,11 @@ export function ApplicationsPage() {
     void loadApplications(appliedFilters);
   }, [appliedFilters, loadApplications]);
 
+  function handleFormSuccess() {
+    setSelectedApplication(null);
+    void loadApplications(appliedFilters);
+  }
+
   return (
     <section className="applications-page">
       <header className="page-header">
@@ -49,6 +58,13 @@ export function ApplicationsPage() {
           {loading ? "Loading…" : `${total} application${total === 1 ? "" : "s"}`}
         </p>
       </header>
+
+      <ApplicationForm
+        mode={selectedApplication ? "edit" : "create"}
+        initialValue={selectedApplication ?? undefined}
+        onSubmitSuccess={handleFormSuccess}
+        onCancel={() => setSelectedApplication(null)}
+      />
 
       <ApplicationFilters
         filters={draftFilters}
@@ -62,7 +78,13 @@ export function ApplicationsPage() {
 
       {loading && <p className="status-message">Loading applications…</p>}
       {error && <p className="status-message error">{error}</p>}
-      {!loading && !error && <ApplicationsTable items={items} />}
+      {!loading && !error && (
+        <ApplicationsTable
+          items={items}
+          selectedId={selectedApplication?.id}
+          onEdit={setSelectedApplication}
+        />
+      )}
     </section>
   );
 }

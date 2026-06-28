@@ -14,9 +14,15 @@ function formatStatus(status: string): string {
 
 interface ApplicationsTableProps {
   items: Application[];
+  selectedId?: string | null;
+  onEdit: (application: Application) => void;
 }
 
-export function ApplicationsTable({ items }: ApplicationsTableProps) {
+export function ApplicationsTable({
+  items,
+  selectedId,
+  onEdit,
+}: ApplicationsTableProps) {
   if (items.length === 0) {
     return <p className="empty-state">No applications found.</p>;
   }
@@ -31,11 +37,15 @@ export function ApplicationsTable({ items }: ApplicationsTableProps) {
             <th>Status</th>
             <th>Applied</th>
             <th>Source</th>
+            <th />
           </tr>
         </thead>
         <tbody>
           {items.map((app) => (
-            <tr key={app.id}>
+            <tr
+              key={app.id}
+              className={selectedId === app.id ? "row-selected" : undefined}
+            >
               <td data-label="Company">{app.company_name}</td>
               <td data-label="Position">{app.position}</td>
               <td data-label="Status">
@@ -45,6 +55,15 @@ export function ApplicationsTable({ items }: ApplicationsTableProps) {
               </td>
               <td data-label="Applied">{formatDate(app.applied_at)}</td>
               <td data-label="Source">{app.source}</td>
+              <td data-label="Actions" className="actions-cell">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => onEdit(app)}
+                >
+                  Edit
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

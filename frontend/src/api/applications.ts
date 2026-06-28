@@ -1,7 +1,10 @@
 import { getApiBaseUrl } from "./client";
 import type {
+  Application,
+  ApplicationCreateInput,
   ApplicationFilterParams,
   ApplicationListResponse,
+  ApplicationUpdateInput,
 } from "../types/application";
 
 function buildQuery(params: ApplicationFilterParams): string {
@@ -18,6 +21,23 @@ function buildQuery(params: ApplicationFilterParams): string {
   return query ? `?${query}` : "";
 }
 
+async function parseApiError(response: Response): Promise<string> {
+  try {
+    const data = await response.json();
+    if (typeof data.detail === "string") {
+      return data.detail;
+    }
+    if (Array.isArray(data.detail)) {
+      return data.detail
+        .map((item: { msg?: string }) => item.msg ?? "Validation error")
+        .join("; ");
+    }
+  } catch {
+    // ignore JSON parse errors
+  }
+  return `Request failed (${response.status})`;
+}
+
 export async function fetchApplications(
   params: ApplicationFilterParams = {},
 ): Promise<ApplicationListResponse> {
@@ -26,8 +46,51 @@ export async function fetchApplications(
   );
 
   if (!response.ok) {
-    throw new Error(`Failed to load applications (${response.status})`);
+    throw new Error(await parseApiError(response));
   }
 
   return response.json();
+}
+
+export async function createApplication(
+  data: ApplicationCreateInput,
+): Promise<Application> {
+  const response = await fetch(`${getApiBaseUrl()}/api/applications`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseApiError(response));
+  }
+
+  return response.json();
+}
+
+export async function updateApplication(
+  id: string,
+  data: ApplicationUpdateInput,
+): Promise<Application> {
+  const response = await fetch(`${getApiBaseUrl()}/api/applications/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseApiError(response));
+  }
+
+  return response.json();
+}
+
+export async function deleteApplication(id: string): Promise<void> {
+  const response = await fetch(`${getApiBaseUrl()}/api/applications/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseApiError(response));
+  }
 }

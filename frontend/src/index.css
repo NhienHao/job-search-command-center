@@ -203,6 +203,79 @@ body {
   color: #b91c1c;
 }
 
+.application-form-card {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.form-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.form-card-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.application-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.form-span-2 {
+  grid-column: 1 / -1;
+}
+
+.application-form input,
+.application-form select {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.field-error {
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+}
+
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.applications-table tbody tr.row-selected {
+  background: #eff6ff;
+}
+
 @media (max-width: 640px) {
   .applications-table thead {
     display: none;

@@ -42,3 +42,18 @@ export interface ApplicationFilterParams {
   sort?: "applied_at" | "company_name" | "position" | "status" | "created_at";
   order?: "asc" | "desc";
 }
+
+export interface ApplicationCreateInput {
+  company_name: string;
+  position: string;
+  job_type: JobType;
+  source: string;
+  jd_url?: string | null;
+  location?: string | null;
+  salary?: string | null;
+  expected_salary?: string | null;
+  status?: ApplicationStatus;
+  applied_at?: string | null;
+}
+
+export type ApplicationUpdateInput = Partial<ApplicationCreateInput>;
