@@ -10,7 +10,7 @@ class ApplicationCreate(BaseModel):
     company_name: str = Field(min_length=1, max_length=255)
     position: str = Field(min_length=1, max_length=255)
     job_type: JobType
-    source: str = Field(min_length=1, max_length=100)
+    source: str = Field(min_length=1, max_length=2048)
     jd_url: str | None = None
     location: str | None = Field(default=None, max_length=255)
     salary: str | None = Field(default=None, max_length=100)
@@ -23,7 +23,7 @@ class ApplicationUpdate(BaseModel):
     company_name: str | None = Field(default=None, min_length=1, max_length=255)
     position: str | None = Field(default=None, min_length=1, max_length=255)
     job_type: JobType | None = None
-    source: str | None = Field(default=None, min_length=1, max_length=100)
+    source: str | None = Field(default=None, min_length=1, max_length=2048)
     jd_url: str | None = None
     location: str | None = Field(default=None, max_length=255)
     salary: str | None = Field(default=None, max_length=100)

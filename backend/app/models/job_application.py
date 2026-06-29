@@ -42,7 +42,7 @@ class JobApplication(Base):
     location: Mapped[str | None] = mapped_column(String(255), nullable=True)
     salary: Mapped[str | None] = mapped_column(String(100), nullable=True)
     expected_salary: Mapped[str | None] = mapped_column(String(100), nullable=True)
-    source: Mapped[str] = mapped_column(String(100), nullable=False)
+    source: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[ApplicationStatus] = mapped_column(
         Enum(ApplicationStatus, name="application_status_enum", native_enum=True),
         nullable=False,

@@ -260,7 +260,7 @@ export function ApplicationForm({
             <input
               type="text"
               value={form.source}
-              placeholder="linkedin, referral, …"
+              placeholder="ITviec, LinkedIn, referral…"
               onChange={(event) => updateField("source", event.target.value)}
             />
             {fieldErrors.source && (
@@ -298,7 +298,7 @@ export function ApplicationForm({
             <input
               type="url"
               value={form.jd_url}
-              placeholder="https://…"
+              placeholder="Full job posting link (paste long URLs here)"
               onChange={(event) => updateField("jd_url", event.target.value)}
             />
           </label>
