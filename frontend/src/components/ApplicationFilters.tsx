@@ -1,4 +1,5 @@
 import { APPLICATION_STATUSES, type ApplicationFilterParams } from "../types/application";
+import { formatEnumLabel } from "../utils/format";
 
 interface ApplicationFiltersProps {
   filters: ApplicationFilterParams;
@@ -38,7 +39,7 @@ export function ApplicationFilters({
             <option value="">All</option>
             {APPLICATION_STATUSES.map((status) => (
               <option key={status} value={status}>
-                {status.replace(/_/g, " ")}
+                {formatEnumLabel(status)}
               </option>
             ))}
           </select>

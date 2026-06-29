@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { fetchDashboardSummary } from "../api/dashboard";
-import {
-  DASHBOARD_STATUS_ORDER,
-  type DashboardSummary,
-} from "../types/dashboard";
-
-function formatStatusLabel(status: string): string {
-  return status.replace(/_/g, " ");
-}
+import { APPLICATION_STATUSES } from "../types/application";
+import { type DashboardSummary } from "../types/dashboard";
+import { formatEnumLabel } from "../utils/format";
 
 export function DashboardPage() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -83,11 +78,11 @@ export function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {DASHBOARD_STATUS_ORDER.map((status) => (
+                  {APPLICATION_STATUSES.map((status) => (
                     <tr key={status}>
                       <td>
                         <span className={`status-badge status-${status}`}>
-                          {formatStatusLabel(status)}
+                          {formatEnumLabel(status)}
                         </span>
                       </td>
                       <td>{summary.byStatus[status]}</td>

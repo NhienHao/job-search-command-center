@@ -9,6 +9,8 @@ import {
   type NoteType,
   type NoteUpdateInput,
 } from "../types/note";
+import { toDatetimeLocalValue } from "../utils/datetime";
+import { formatEnumLabel } from "../utils/format";
 
 interface NoteFormState {
   note_type: NoteType;
@@ -23,17 +25,6 @@ const EMPTY_NOTE_FORM: NoteFormState = {
   event_at: "",
   interview_completed: false,
 };
-
-function toDatetimeLocalValue(iso: string | null): string {
-  if (!iso) return "";
-  const date = new Date(iso);
-  const pad = (value: number) => String(value).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-function formatNoteType(noteType: NoteType): string {
-  return noteType.replace(/_/g, " ");
-}
 
 function formatDateTime(iso: string | null): string {
   if (!iso) return "—";
@@ -247,7 +238,7 @@ export function NotesPanel({ application }: NotesPanelProps) {
               className={editingNote?.id === note.id ? "note-item editing" : "note-item"}
             >
               <div className="note-item-header">
-                <span className="note-type-badge">{formatNoteType(note.note_type)}</span>
+                <span className="note-type-badge">{formatEnumLabel(note.note_type)}</span>
                 {note.note_type === "interview" && (
                   <span className="note-meta">
                     {note.interview_completed ? "Completed" : "Scheduled"}
@@ -297,7 +288,7 @@ export function NotesPanel({ application }: NotesPanelProps) {
           >
             {NOTE_TYPES.map((type) => (
               <option key={type} value={type}>
-                {formatNoteType(type)}
+                {formatEnumLabel(type)}
               </option>
             ))}
           </select>

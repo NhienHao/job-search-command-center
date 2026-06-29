@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.note import NoteCreate, NoteListResponse, NoteResponse, NoteUpdate
 from app.services import note_service
-from app.services.note_service import NoteValidationError
 
 nested_router = APIRouter(
     prefix="/applications/{application_id}/notes",
@@ -39,7 +38,7 @@ def create_note(
 ) -> NoteResponse:
     try:
         note = note_service.create_note(db, application_id, payload)
-    except NoteValidationError as exc:
+    except note_service.NoteValidationError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     if note is None:
@@ -56,7 +55,7 @@ def update_note(
 ) -> NoteResponse:
     try:
         note = note_service.update_note(db, note_id, payload)
-    except NoteValidationError as exc:
+    except note_service.NoteValidationError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     if note is None:

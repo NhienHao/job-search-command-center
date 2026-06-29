@@ -13,15 +13,6 @@ export interface DashboardSummary {
   interviewsConducted: number;
 }
 
-export const DASHBOARD_STATUS_ORDER: (keyof DashboardByStatus)[] = [
-  "applied",
-  "screening",
-  "interview",
-  "offer",
-  "rejected",
-  "on_hold",
-];
-
 interface DashboardSummaryResponse {
   total_applications: number;
   by_status: Partial<DashboardByStatus>;

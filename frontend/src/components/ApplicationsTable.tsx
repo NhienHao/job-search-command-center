@@ -1,4 +1,5 @@
 import type { Application } from "../types/application";
+import { formatEnumLabel } from "../utils/format";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, {
@@ -6,10 +7,6 @@ function formatDate(iso: string): string {
     month: "short",
     day: "numeric",
   });
-}
-
-function formatStatus(status: string): string {
-  return status.replace(/_/g, " ");
 }
 
 interface ApplicationsTableProps {
@@ -50,7 +47,7 @@ export function ApplicationsTable({
               <td data-label="Position">{app.position}</td>
               <td data-label="Status">
                 <span className={`status-badge status-${app.status}`}>
-                  {formatStatus(app.status)}
+                  {formatEnumLabel(app.status)}
                 </span>
               </td>
               <td data-label="Applied">{formatDate(app.applied_at)}</td>

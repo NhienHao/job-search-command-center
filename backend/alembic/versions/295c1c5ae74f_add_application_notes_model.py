@@ -1,5 +1,8 @@
 """add application_notes model
 
+No-op revision: duplicate autogenerate run after 18144e17ddfb, which already
+created application_notes. Kept for Alembic history on deployed databases.
+
 Revision ID: 295c1c5ae74f
 Revises: 18144e17ddfb
 Create Date: 2026-06-28 19:39:59.188588

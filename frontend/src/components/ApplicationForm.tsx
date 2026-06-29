@@ -10,6 +10,8 @@ import {
   type ApplicationUpdateInput,
   type JobType,
 } from "../types/application";
+import { toDatetimeLocalValue } from "../utils/datetime";
+import { formatEnumLabel } from "../utils/format";
 
 interface FormState {
   company_name: string;
@@ -36,12 +38,6 @@ const EMPTY_FORM: FormState = {
   status: "applied",
   applied_at: "",
 };
-
-function toDatetimeLocalValue(iso: string): string {
-  const date = new Date(iso);
-  const pad = (value: number) => String(value).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
 
 function formFromApplication(application: Application): FormState {
   return {
@@ -249,7 +245,7 @@ export function ApplicationForm({
             >
               {JOB_TYPES.map((type) => (
                 <option key={type} value={type}>
-                  {type.replace(/_/g, " ")}
+                  {formatEnumLabel(type)}
                 </option>
               ))}
             </select>
@@ -278,7 +274,7 @@ export function ApplicationForm({
             >
               {APPLICATION_STATUSES.map((status) => (
                 <option key={status} value={status}>
-                  {status.replace(/_/g, " ")}
+                  {formatEnumLabel(status)}
                 </option>
               ))}
             </select>
