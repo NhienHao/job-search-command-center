@@ -7,6 +7,8 @@ class AppSettings(BaseSettings):
     backend_env: str = "local"
     backend_port: int = 8000
     cors_origins: str = "http://localhost:5173"
+    # Matches production + preview deploys on Vercel for this project.
+    cors_origin_regex: str = r"https://job-search-command-center.*\.vercel\.app"
 
     @property
     def cors_origins_list(self) -> list[str]:
