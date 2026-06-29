@@ -148,10 +148,11 @@ CORS_ORIGINS=https://your-app.vercel.app
 
 | File | Cần? | Mục đích |
 |------|------|----------|
+| `backend/railway.toml` | **Có** | Start command `uvicorn app.main:app` — tránh lỗi `Could not import module "main"` |
 | `frontend/vercel.json` | **Có** | Rewrite SPA — `/dashboard` refresh không 404 |
 | `backend/requirements.txt` | Đã có | Dependencies Python |
 | `backend/alembic/` | Đã có | Migrations production |
-| `railway.toml` / `Procfile` | **Không** (MVP) | Cấu hình Start Command trên Railway UI là đủ |
+| `railway.toml` / `Procfile` (repo root) | **Không** | Dùng `backend/railway.toml` + Root Directory `backend` |
 | `Dockerfile` | **Không** (MVP) | Railway Nixpacks build tự động |
 
 Nội dung `frontend/vercel.json`:
@@ -209,6 +210,7 @@ curl https://YOUR-RAILWAY-URL.up.railway.app/api/applications
 | Frontend gọi `localhost:8000` | Thiếu hoặc sai `VITE_API_BASE_URL` khi build | Set env Vercel, **redeploy** |
 | `/dashboard` 404 khi refresh | Thiếu SPA rewrite | Thêm `frontend/vercel.json` |
 | `500` khi list apps | Bảng chưa tồn tại | Chạy migration |
+| `Could not import module "main"` | Start command sai hoặc Root Directory sai | Root Directory = `backend`; Start = `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 
 ---
 
